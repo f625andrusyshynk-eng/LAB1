@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 using namespace std;
-class ZavdClass {
+class TaskSolver {
 private: double a; double b;
        double Faktr(int n)
        {
@@ -12,12 +12,9 @@ private: double a; double b;
            }
            return f;
        }
-public: ZavdClass() 
-       { 
-       a = 0.0;
-       b = 0.0; 
-       }
-      void Fn_b(double x, double y, double z)
+public: 
+TaskSolver()  { a = 0.0; b = 0.0; }
+      void CalculateB(double x, double y, double z)
       {
           double b1 = x * x + tan(pow(y + z, 2));
           double b2 = 0.345 * y * pow(sin(x * x), 2);
@@ -26,7 +23,7 @@ public: ZavdClass()
           b = y * (b1 / b2 + b3);
       }
 
-      void Fn_a(double x, double y, double z)
+      void CalculateA(double x, double y, double z)
       {
           double a1 = pow(x + y, 2);
           double a2 = (x + y * y) * pow(b * b + z, 0.3);
@@ -51,9 +48,9 @@ int main() {
     double y = 0.47 - variant;
     double z = -1.32 - variant;
 
-    ZavdClass zavd;
-    zavd.Fn_b(x, y, z);
-    zavd.Fn_a(x, y, z);
+    TaskSolver solver;
+    solver.calculateB(x, y, z);
+    solver.calculateA(x, y, z);
 
     cout << "x = " << x << endl;
     cout << "y = " << y << endl;
