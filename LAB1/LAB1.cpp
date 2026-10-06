@@ -1,4 +1,5 @@
-#include <iostream> #include <cmath>
+#include <iostream>
+#include <cmath>
 using namespace std;
 class ZavdClass {
 private: double a; double b;
@@ -11,7 +12,11 @@ private: double a; double b;
            }
            return f;
        }
-public: ZavdClass() { a = 0.0; b = 0.0; }
+public: ZavdClass() 
+       { 
+       a = 0.0;
+       b = 0.0; 
+       }
       void Fn_b(double x, double y, double z)
       {
           double b1 = x * x + tan(pow(y + z, 2));
