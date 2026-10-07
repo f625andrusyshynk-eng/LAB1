@@ -1,214 +1,74 @@
-#include <iostream> 
-#include <cstring>
+#include <iostream>
+#include <cmath>
+#include <iomanip>
 using namespace std;
 
-class Worker {
-private: 
-    int id;
-    char* name;
-    double salary;
-    int experience;
-    int workedDays;
-    int totalDays;
-    double earnings;
-    double tax;
+class TaskSolver {
+private:
+    double a;
+    double b;
 
-public: 
-    Worker() 
-    { 
-        id = 0; 
-        name = new char[1];
-        name[0] = '\0';
-        salary = 0.0;
-        experience = 0;
-        workedDays = 0;
-        totalDays = 22;
-        earnings = 0.0;
-        tax = 0.0; 
-    }
-
-    Worker(const Worker& other)
+    double Faktr(int n)
     {
-        id = other.id;
-        salary = other.salary;
-        experience = other.experience;
-        workedDays = other.workedDays;
-        totalDays = other.totalDays;
-        earnings = other.earnings;
-        tax = other.tax;
-        
-        name = new char[strlen(other.name) + 1];
-        strcpy(name, other.name);
-    }
-
-    Worker& operator=(const Worker& other)
-    {
-        if (this != &other)
+        double f = 1.0;
+        for (int i = 1; i <= n; i++)
         {
-            delete[] name;
-
-            id = other.id;
-            salary = other.salary;
-            experience = other.experience;
-            workedDays = other.workedDays;
-            totalDays = other.totalDays;
-            earnings = other.earnings;
-            tax = other.tax;
-
-            name = new char[strlen(other.name) + 1];
-            strcpy(name, other.name);
+            f *= i;
         }
-        return *this;
+        return f;
     }
 
-    ~Worker() 
+public:
+    TaskSolver() { a = 0.0; b = 0.0; }
+
+    void CalculateB(double x, double y, double z)
     {
-        delete[] name;
+        double b1 = y + atan(pow(fabs(x * x + z), 0.1));
+        double b2 = 3.0 / x + pow(sin(pow(y + z, 3)), 2);
+        double b3 = y * exp(-(x + z) / (y + z));
+
+        b = x * (b1 / b2 + b3);
     }
 
-    void set(int workerId, const char* workerName, double baseSalary, int exp, int days, int maxDays)
+    void CalculateA(double x, double y, double z)
     {
-        id = workerId;
-        
-        delete[] name;
-        name = new char[strlen(workerName) + 1];
-        strcpy(name, workerName);
+        double a1 = sqrt(pow(fabs(x * x - z), 0.3));
+        double a2 = cbrt(fabs(y + 2 * b));
+        double a3 = 1.0 + pow(x, 1) / Faktr(1) + pow(y, 2) / Faktr(2) + pow(z, 3) / Faktr(3);
 
-        salary = baseSalary;
-        experience = exp;
-        workedDays = days;
-        totalDays = maxDays;
-        calculate();
+        a = (a1 - a2) / a3;
     }
 
-    void calculate()
-    {
-        if (totalDays > 0)
-        {
-            double base = (salary / totalDays) * workedDays;
-            double bonus = base * (experience * 0.01);
-            earnings = base + bonus;
-            tax = earnings * 0.195;
-        }
-    }
-
-    void setSalary(double newSalary)
-    {
-        salary = newSalary;
-        calculate();
-    }
-
-    void setDays(int newDays)
-    {
-        workedDays = newDays;
-        calculate();
-    }
-
-    int getId()
-    {
-        return id;
-    }
-
-    void show()
-    {
-        cout << "ID: " << id << " | Name: " << name << endl;
-        cout << "Base Salary: " << salary << " | Experience: " << experience << " years" << endl;
-        cout << "Days: " << workedDays << "/" << totalDays << endl;
-        cout << "Earnings: " << earnings << " | Tax: " << tax << endl;
-        cout << "Net Payout: " << (earnings - tax) << endl;
-        cout << "-----------------------------------" << endl;
-    }
-};
-
-class List {
-private: 
-    Worker items[20];
-    int count;
-
-public: 
-    List() 
-    { 
-        count = 0; 
-    }
-
-    ~List() {}
-
-    void add(Worker w)
-    {
-        if (count < 20)
-        {
-            items[count] = w;
-            count++;
-        }
-    }
-
-    void edit(int id, double newSalary, int newDays)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            if (items[i].getId() == id)
-            {
-                items[i].setSalary(newSalary);
-                items[i].setDays(newDays);
-                return;
-            }
-        }
-    }
-
-    void remove(int id)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            if (items[i].getId() == id)
-            {
-                for (int j = i; j < count - 1; j++)
-                {
-                    items[j] = items[j + 1];
-                }
-                count--;
-                return;
-            }
-        }
-    }
-
-    void find(int id)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            if (items[i].getId() == id)
-            {
-                items[i].show();
-                return;
-            }
-        }
-    }
-
-    void showAll()
-    {
-        for (int i = 0; i < count; i++)
-        {
-            items[i].show();
-        }
-    }
+    double getA() { return a; }
+    double getB() { return b; }
 };
 
 int main() {
-    List list;
-    Worker w1, w2;
+    int variant = 1;
 
-    w1.set(101, "John Smith", 20000, 5, 22, 22);
-    w2.set(102, "Alex Brown", 18000, 3, 20, 22);
+    double y = 0.47 * variant;
+    double z = -1.32 * variant;
 
-    list.add(w1);
-    list.add(w2);
+    double x_start = -1.0;
+    double x_end = 1.0;
+    double dx = 0.2;
 
-    list.showAll();
+    TaskSolver solver;
 
-    list.edit(102, 19000, 22);
-    list.find(102);
-    list.remove(101);
+    cout << left << setw(10) << "x" << setw(15) << "b" << setw(15) << "a" << endl;
+    cout << "---------------------------------------" << endl;
 
-    list.showAll();
+    for (double x = x_start; x <= x_end + 1e-9; x += dx)
+    {
+        if (abs(x) < 1e-9) continue;
+
+        solver.CalculateB(x, y, z);
+        solver.CalculateA(x, y, z);
+
+        cout << left << setw(10) << x 
+             << setw(15) << solver.getB() 
+             << setw(15) << solver.getA() << endl;
+    }
 
     return 0;
 }
