@@ -3,8 +3,8 @@
 using namespace std;
 
 class TaskSolver {
-private: 
-    double a; 
+private:
+    double a;
     double b;
 
     double Faktr(int n)
@@ -17,43 +17,37 @@ private:
         return f;
     }
 
-public: 
+public:
     TaskSolver() { a = 0.0; b = 0.0; }
 
     void CalculateB(double x, double y, double z)
     {
-        double b1 = x * x + tan(pow(y + z, 2));
-        double b2 = 0.345 * y * pow(sin(x * x), 2);
-        double b3 = exp(-(x + y) / z);
+        double b1 = y + atan(pow(fabs(x * x + z), 0.1));
+        double b2 = 3.0 / x + pow(sin(pow(y + z, 3)), 2);
+        double b3 = y * exp(-(x + z) / (y + z));
 
-        b = y * (b1 / b2 + b3);
+        b = x * (b1 / b2 + b3);
     }
 
     void CalculateA(double x, double y, double z)
     {
-        double a1 = pow(x + y, 2);
-        double a2 = (x + y * y) * pow(b * b + z, 0.3);
-        double a3 = x / Faktr(2) + exp(z - 2) + y * y / Faktr(3);
+        double a1 = sqrt(pow(fabs(x * x - z), 0.3));
+        double a2 = cbrt(fabs(y + 2 * b));
+        double a3 = 1.0 + pow(x, 1) / Faktr(1) + pow(y, 2) / Faktr(2) + pow(z, 3) / Faktr(3);
 
-        a = a1 * a2 / a3;
+        a = (a1 - a2) / a3;
     }
 
-    double getA()
-    {
-        return a;
-    }
-
-    double getB()
-    {
-        return b;
-    }
+    double getA() { return a; }
+    double getB() { return b; }
 };
 
 int main() {
     int variant = 1;
-    double x = 0.48 - variant;
-    double y = 0.47 - variant;
-    double z = -1.32 - variant;
+
+    double x = 0.48 * variant;
+    double y = 0.47 * variant;
+    double z = -1.32 * variant;
 
     TaskSolver solver;
     solver.CalculateB(x, y, z);
@@ -61,4 +55,9 @@ int main() {
 
     cout << "x = " << x << endl;
     cout << "y = " << y << endl;
-    
+    cout << "z = " << z << endl;
+    cout << "b = " << solver.getB() << endl;
+    cout << "a = " << solver.getA() << endl;
+
+    return 0;
+}
