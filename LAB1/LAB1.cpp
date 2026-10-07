@@ -49,32 +49,23 @@ int main() {
     double y = 0.47 * variant;
     double z = -1.32 * variant;
 
+    double x_start = -1.0;
+    double x_end = 1.0;
+    double dx = 0.2;
+
     TaskSolver solver;
 
-    cout << left << setw(10) << "x" << setw(15) << "b" << setw(15) << "a" << endl;
-    cout << "---------------------------------------" << endl;
+    cout << left << setw(10) << "x" << setw(18) << "b" << setw(18) << "a" << endl;
+    cout << "---------------------------------------------------" << endl;
 
-    cout << fixed << setprecision(4);
-
-    for (int i = -5; i <= 5; i++)
+    for (double x = x_start; x <= x_end + 1e-9; x += dx)
     {
-        double x = i * 0.2;
+        solver.CalculateB(x, y, z);
+        solver.CalculateA(x, y, z);
 
-        if (i == 0) 
-        {
-            cout << left << setw(10) << x 
-                 << setw(15) << "Error (x=0)" 
-                 << setw(15) << "Error (x=0)" << endl;
-        }
-        else 
-        {
-            solver.CalculateB(x, y, z);
-            solver.CalculateA(x, y, z);
-
-            cout << left << setw(10) << x 
-                 << setw(15) << solver.getB() 
-                 << setw(15) << solver.getA() << endl;
-        }
+        cout << left << setw(10) << x 
+             << setw(18) << solver.getB() 
+             << setw(18) << solver.getA() << endl;
     }
 
     return 0;
